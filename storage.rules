@@ -1,0 +1,13 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /documents/{allPaths=**} {
+      // Tidak ada permanent public URL sama sekali. Semua akses baca/tulis
+      // WAJIB lewat signed URL bertenggat pendek yang di-generate oleh
+      // Cloud Functions (requestUploadUrl, getFileUrl, redeemVerificationCode)
+      // menggunakan Admin SDK, yang otomatis melewati rules ini.
+      allow read, write: if false;
+    }
+  }
+}
